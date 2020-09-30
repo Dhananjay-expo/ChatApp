@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">WhatsApp</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="write_your_message_here">write your message here...</string>
+    <string name="todo">TODO</string>
+    <string name="email">Email..</string>
+    <string name="password">Password..</string>
+    <string name="forget_password">Forget Password</string>
+    <string name="login">Login</string>
+    <string name="need_new_account">Need New Account</string>
+    <string name="or_login_using_your">or Login Using Your</string>
+    <string name="phone">Phone</string>
+    <string name="write_verification_code_here">Write verification code here...</string>
+    <string name="send_verification_code">Send Verification Code</string>
+    <string name="verify">Verify</string>
+    <string name="user_name">user name</string>
+    <string name="hey_i_m_using_markpairdha_s_chat_app">hey i\'m using MarkPairdha\'s chat App.</string>
+    <string name="send_message">Send Message</string>
+    <string name="cancel_chat_request">Cancel Chat Request</string>
+    <string name="create_account">Create Account</string>
+    <string name="already_have_an_account">Already have an Account ?</string>
+    <string name="username">username</string>
+    <string name="hey_i_am_available_now">hey, i am available now.</string>
+    <string name="update">Update</string>
+    <string name="display_username">Display UserName</string>
+    <string name="last_seen">Last Seen</string>
+    <string name="receiver_messages_here">receiver messages here</string>
+    <string name="sender_messages">sender messages</string>
+    <string name="user_status">user status</string>
+    <string name="accept">Accept</string>
+    <string name="cancel">Cancel</string>
+    <string name="user_name">user name</string>
+</resources>
