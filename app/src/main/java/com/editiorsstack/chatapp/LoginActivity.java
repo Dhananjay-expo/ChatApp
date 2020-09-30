@@ -35,10 +35,17 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_alt);
 
+        LoginButton = findViewById(R.id.login_button);
+        PhoneLoginButton = findViewById(R.id.phone_login_button);
+        UserEMail = findViewById(R.id.login_email);
+        UserPassword = findViewById(R.id.login_password);
+        NeedNewAccountLink = findViewById(R.id.need_new_account_link);
+        ForgetPasswordLink = findViewById(R.id.forget_password_link);
+        loadingBar = new ProgressDialog(this);
+
+
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
-
-        initializeFields();
 
         NeedNewAccountLink.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,16 +113,6 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     });
         }
-    }
-
-    private void initializeFields() {
-        LoginButton = findViewById(R.id.login_button);
-        PhoneLoginButton = findViewById(R.id.phone_login_button);
-        UserEMail = findViewById(R.id.login_email);
-        UserPassword = findViewById(R.id.login_password);
-        NeedNewAccountLink = findViewById(R.id.need_new_account_link);
-        ForgetPasswordLink = findViewById(R.id.forget_password_link);
-        loadingBar = new ProgressDialog(this);
     }
 
     private void SendUserToMainActivity() {

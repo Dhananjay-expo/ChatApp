@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorAccent"
     tools:context=".MainActivity">
 
@@ -16,17 +16,16 @@
 
         <include
             android:id="@+id/main_page_toolbar"
-            layout="@layout/app_bar_layout">
-        </include>
+            layout="@layout/app_bar_layout"/>
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/main_tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:tabIndicator="@color/colorPrimary"
+            app:tabSelectedTextColor="@color/colorAccent"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
         </com.google.android.material.tabs.TabLayout>
-
-
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.viewpager.widget.ViewPager
@@ -34,7 +33,6 @@
         android:layout_below="@id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
     </androidx.viewpager.widget.ViewPager>
 
 </RelativeLayout>
