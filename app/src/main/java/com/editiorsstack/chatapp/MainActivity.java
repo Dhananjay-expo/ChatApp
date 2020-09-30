@@ -28,11 +28,6 @@ import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Toolbar mToolbar;
-    private ViewPager myViewPager;
-    private TabLayout myTabLayout;
-    private TabsAccessorAdapter mTabsAccessorAdapter;
-
     private FirebaseUser currentUser;
     private FirebaseAuth mAuth;
     private DatabaseReference RootRef;
@@ -45,20 +40,15 @@ public class MainActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
         RootRef = FirebaseDatabase.getInstance().getReference();
-
-
-
-
-
-        mToolbar = findViewById(R.id.main_page_toolbar);
+        Toolbar mToolbar = findViewById(R.id.main_page_toolbar);
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setTitle("WhatsApp");
+        getSupportActionBar().setTitle("ChatApp");
 
-        myViewPager = (ViewPager) findViewById(R.id.main_tabs_pager);
-        mTabsAccessorAdapter = new TabsAccessorAdapter(getSupportFragmentManager());
+        ViewPager myViewPager = (ViewPager) findViewById(R.id.main_tabs_pager);
+        TabsAccessorAdapter mTabsAccessorAdapter = new TabsAccessorAdapter(getSupportFragmentManager());
         myViewPager.setAdapter(mTabsAccessorAdapter);
 
-        myTabLayout = (TabLayout) findViewById(R.id.main_tabs);
+        TabLayout myTabLayout = (TabLayout) findViewById(R.id.main_tabs);
         myTabLayout.setupWithViewPager(myViewPager);
     }
 
@@ -136,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
         builder.setTitle("Enter Group Name :");
 
         final EditText groupNameField = new EditText(MainActivity.this);
-        groupNameField.setHint("e.g Coding Cafe");
+        groupNameField.setHint("Project CSE");
         builder.setView(groupNameField);
 
         builder.setPositiveButton("Create", new DialogInterface.OnClickListener() {
