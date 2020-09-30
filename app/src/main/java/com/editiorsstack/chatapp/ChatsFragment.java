@@ -32,7 +32,6 @@ public class ChatsFragment extends Fragment {
     private RecyclerView chatsList;
     private DatabaseReference ChatsRef, UsersRef;
     private String retImage = "default_image";
-    String currentUserID;
     public ChatsFragment() {
         // Required empty public constructor
     }
@@ -41,20 +40,13 @@ public class ChatsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View privateChatsView = inflater.inflate(R.layout.fragment_chats, container, false);
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
-            //Go to login
-        }
-        else {
-            currentUserID = mAuth.getCurrentUser().getUid();
-            ChatsRef = FirebaseDatabase.getInstance().getReference().child("Contacts").child(currentUserID);
-            UsersRef = FirebaseDatabase.getInstance().getReference().child("Users");
-            chatsList = privateChatsView.findViewById(R.id.chats_list);
-            chatsList.setLayoutManager(new LinearLayoutManager(getContext()));
+        String currentUserID = mAuth.getCurrentUser().getUid();
+        ChatsRef = FirebaseDatabase.getInstance().getReference().child("Contacts").child(currentUserID);
+        UsersRef = FirebaseDatabase.getInstance().getReference().child("Users");
+        chatsList = privateChatsView.findViewById(R.id.chats_list);
+        chatsList.setLayoutManager(new LinearLayoutManager(getContext()));
 
-
-        }
-        return privateChatsView;
-
+         return privateChatsView;
     }
 
     @Override
