@@ -13,12 +13,21 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
+        </activity>
+        <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ChatActivity"/>
+        <activity android:name=".ChatMainActivity"/>
+        <activity android:name=".FindFriendsActivity"/>
+        <activity android:name=".GroupChatActivity"/>
+        <activity android:name=".PhoneLoginActivity"/>
+        <activity android:name=".RegisterActivity"/>
+        <activity android:name=".ProfileActivity"/>
+        <activity android:name=".SettingsActivity"/>
     </application>
 
 </manifest>
