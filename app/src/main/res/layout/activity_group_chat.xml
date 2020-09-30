@@ -51,16 +51,19 @@
 
         <EditText
             android:id="@+id/input_group_message"
-            android:layout_width="320dp"
+            android:layout_width="340dp"
             android:layout_height="wrap_content"
-            android:hint="write a message here.."
-            android:padding="17dp"/>
-        
+            android:hint="@string/write_a_message_here"
+            android:padding="17dp"
+            android:importantForAutofill="no"
+            android:inputType="textAutoComplete" />
+
         <ImageButton
             android:id="@+id/send_message_button"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:src="@drawable/send_message"/>
+            android:layout_width="68dp"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/todo"
+            android:src="@drawable/send_message" />
 
 
     </LinearLayout>

@@ -23,45 +23,40 @@ public class LoginActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private ProgressDialog loadingBar;
-
     private FirebaseUser currentUser;
-
-    private Button LoginButton, PhoneLoginButton;
     private EditText UserEMail, UserPassword;
-    private TextView NeedNewAccountLink, ForgetPasswordLink;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_alt);
 
-        LoginButton = findViewById(R.id.login_button);
-        PhoneLoginButton = findViewById(R.id.phone_login_button);
+        Button loginButton = findViewById(R.id.login_button);
+        Button phoneLoginButton = findViewById(R.id.phone_login_button);
         UserEMail = findViewById(R.id.login_email);
         UserPassword = findViewById(R.id.login_password);
-        NeedNewAccountLink = findViewById(R.id.need_new_account_link);
-        ForgetPasswordLink = findViewById(R.id.forget_password_link);
+        TextView needNewAccountLink = findViewById(R.id.need_new_account_link);
         loadingBar = new ProgressDialog(this);
 
 
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
 
-        NeedNewAccountLink.setOnClickListener(new View.OnClickListener() {
+        needNewAccountLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 SendUserToRegisterActivity();
             }
         });
 
-        LoginButton.setOnClickListener(new View.OnClickListener() {
+        loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AllowUserToLogin();
             }
         });
 
-        PhoneLoginButton.setOnClickListener(new View.OnClickListener() {
+        phoneLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent phoneLoginIntent = new Intent(LoginActivity.this, PhoneLoginActivity.class);
@@ -94,7 +89,6 @@ public class LoginActivity extends AppCompatActivity {
             loadingBar.setMessage("Please wait...");
             loadingBar.setCanceledOnTouchOutside(true);
             loadingBar.show();
-
             mAuth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override

@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/darker_gray"
+    android:background="#F3F3F3"
     tools:context=".ChatActivity">
 
     <include
         android:id="@+id/chat_toolbar"
-        layout="@layout/app_bar_layout">
-    </include>
+        layout="@layout/app_bar_layout"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/private_messages_list_of_users"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/chat_toolbar"/>
+        android:layout_below="@+id/chat_toolbar" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,21 +24,26 @@
         android:layout_alignParentBottom="true"
         android:background="@android:color/background_light"
         android:orientation="horizontal">
-        
+
         <EditText
 
             android:id="@+id/input_message"
-            android:layout_width="330dp"
+            android:layout_width="340dp"
             android:layout_height="wrap_content"
             android:hint="@string/type_message_here"
-            android:padding="15dp"/>
+            android:importantForAutofill="no"
+
+            android:inputType="textAutoComplete" />
 
         <ImageButton
             android:id="@+id/send_message_btn"
-            android:layout_width="60dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/send_message"/>
-        
+            android:contentDescription="@string/todo"
+            android:src="@drawable/send_message" />
+
     </LinearLayout>
+
+
 
 </RelativeLayout>

@@ -29,4 +29,6 @@
     <string name="already_have_an_account">Already have an Account ?</string>
     <string name="receiver_messages_here">receiver messages here</string>
     <string name="sender_messages">sender messages</string>
+    <string name="write_a_message_here">write a message here..</string>
+    <string name="username">username</string>
 </resources>

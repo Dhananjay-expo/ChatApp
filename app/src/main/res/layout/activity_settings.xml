@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/set_profile_image"
         android:inputType="textMultiLine"
-        android:hint="username"
+        android:hint="@string/username"
         android:textAlignment="center"
         android:drawableStart="@drawable/edit_profile"
         android:textColor="@color/colorPrimaryDark"
@@ -38,7 +38,8 @@
         android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp"
         android:padding="6dp"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="10dp"
+        android:importantForAutofill="no" />
 
     <EditText
         android:id="@+id/set_profile_status"
@@ -55,14 +56,15 @@
         android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp"
         android:padding="6dp"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="10dp"
+        android:importantForAutofill="no" />
 
     <Button
         android:id="@+id/update_settings_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/set_profile_status"
-        android:inputType="textMultiLine"
+
         android:text="@string/update"
         android:textAlignment="center"
         android:textColor="@android:color/background_light"

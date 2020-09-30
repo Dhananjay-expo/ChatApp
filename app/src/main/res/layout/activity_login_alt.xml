@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity"
-    >
+    tools:context=".LoginActivity">
 
 
     <ScrollView
@@ -13,7 +12,8 @@
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:background="@android:color/background_light">
+        android:background="@android:color/background_light"
+        tools:ignore="UselessParent">
 
         <RelativeLayout
             android:layout_width="match_parent"
