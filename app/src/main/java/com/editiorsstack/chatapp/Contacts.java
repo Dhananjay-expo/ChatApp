@@ -1,25 +1,15 @@
 package com.editiorsstack.chatapp;
 
 public class Contacts {
-    public String name,image,status;
 
-    public Contacts()
-    {
+    public String name, status, image;
 
+    public Contacts() {
     }
 
-    public void setStatus(String name,String status,String image)
-    {
+    public Contacts(String name, String status, String image) {
+        this.name = name;
         this.status = status;
-        this.image = image;
-        this.status = status;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
         this.image = image;
     }
 
@@ -37,5 +27,13 @@ public class Contacts {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }

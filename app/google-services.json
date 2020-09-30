@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "580709165734",
-    "firebase_url": "https://chatapp-79909.firebaseio.com",
-    "project_id": "chatapp-79909",
-    "storage_bucket": "chatapp-79909.appspot.com"
+    "project_number": "231138470473",
+    "firebase_url": "https://chatapp-f49f3.firebaseio.com",
+    "project_id": "chatapp-f49f3",
+    "storage_bucket": "chatapp-f49f3.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:580709165734:android:80f5cf12fd46f11321a267",
+        "mobilesdk_app_id": "1:231138470473:android:48f7e2cd1b20e1acf86d98",
         "android_client_info": {
           "package_name": "com.editiorsstack.chatapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "580709165734-i0ilg3jk7502akukighjg98s406es948.apps.googleusercontent.com",
+          "client_id": "231138470473-4qbvdsphj5ejr8lev58bm32aelvb9h3n.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.editiorsstack.chatapp",
@@ -23,20 +23,20 @@
           }
         },
         {
-          "client_id": "580709165734-vbmum96ovet4q481emc4gu6aklid93ds.apps.googleusercontent.com",
+          "client_id": "231138470473-2fjq6jm5ho40ifrb0a1drl96jcij734k.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyD3tJYZpv0sTfBfA3yhIVMX9cm0wwHO19o"
+          "current_key": "AIzaSyAIIw3OAfiNumbL4_EWQpsL5i8mqeA-Wx0"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "580709165734-vbmum96ovet4q481emc4gu6aklid93ds.apps.googleusercontent.com",
+              "client_id": "231138470473-2fjq6jm5ho40ifrb0a1drl96jcij734k.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
