@@ -19,6 +19,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.util.Objects;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ProfileActivity extends AppCompatActivity {
@@ -30,7 +32,6 @@ public class ProfileActivity extends AppCompatActivity {
     private Button SendMessageRequestButton, DeclineMessageRequestButton;
 
     private DatabaseReference UserRef, ChatRequestRef, ContactsRef;
-    private FirebaseAuth mAuth;
 
 
     @Override
@@ -38,13 +39,13 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        mAuth = FirebaseAuth.getInstance();
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
         UserRef = FirebaseDatabase.getInstance().getReference().child("Users");
         ChatRequestRef = FirebaseDatabase.getInstance().getReference().child("Chat Requests");
         ContactsRef = FirebaseDatabase.getInstance().getReference().child("Contacts");
 
-        receiverUserID = getIntent().getExtras().get("visit_user_id").toString();
-        senderUserID = mAuth.getCurrentUser().getUid();
+        receiverUserID = Objects.requireNonNull(Objects.requireNonNull(getIntent().getExtras()).get("visit_user_id")).toString();
+        senderUserID = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
 
         userProfileImage = findViewById(R.id.visit_profile_image);
         userProfileName = findViewById(R.id.visit_user_name);
@@ -59,11 +60,11 @@ public class ProfileActivity extends AppCompatActivity {
     private void RetrieveUserInfo() {
         UserRef.child(receiverUserID).addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if ((dataSnapshot.exists()) && (dataSnapshot.hasChild("image"))) {
-                    String userImage = dataSnapshot.child("image").getValue().toString();
-                    String userName = dataSnapshot.child("name").getValue().toString();
-                    String userStatus = dataSnapshot.child("status").getValue().toString();
+                    String userImage = Objects.requireNonNull(dataSnapshot.child("image").getValue()).toString();
+                    String userName = Objects.requireNonNull(dataSnapshot.child("name").getValue()).toString();
+                    String userStatus = Objects.requireNonNull(dataSnapshot.child("status").getValue()).toString();
 
                     Picasso.get().load(userImage).placeholder(R.drawable.profile_image).into(userProfileImage);
                     userProfileName.setText(userName);
@@ -72,8 +73,8 @@ public class ProfileActivity extends AppCompatActivity {
                     ManageChatRequests();
 
                 } else {
-                    String userName = dataSnapshot.child("name").getValue().toString();
-                    String userStatus = dataSnapshot.child("status").getValue().toString();
+                    String userName = Objects.requireNonNull(dataSnapshot.child("name").getValue()).toString();
+                    String userStatus = Objects.requireNonNull(dataSnapshot.child("status").getValue()).toString();
 
                     userProfileName.setText(userName);
                     userProfileStatus.setText(userStatus);
@@ -84,7 +85,7 @@ public class ProfileActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });
@@ -96,9 +97,9 @@ public class ProfileActivity extends AppCompatActivity {
         ChatRequestRef.child(senderUserID)
                 .addValueEventListener(new ValueEventListener() {
                     @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         if (dataSnapshot.hasChild(receiverUserID)) {
-                            String request_type = dataSnapshot.child(receiverUserID).child("request_type").getValue().toString();
+                            String request_type = Objects.requireNonNull(dataSnapshot.child(receiverUserID).child("request_type").getValue()).toString();
 
                             if (request_type.equals("sent")) {
                                 Current_State = "request_sent";
@@ -124,7 +125,7 @@ public class ProfileActivity extends AppCompatActivity {
                             ContactsRef.child(senderUserID)
                                     .addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override
-                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                             if (dataSnapshot.hasChild(receiverUserID)) {
                                                 Current_State = "friends";
                                                 SendMessageRequestButton.setText("Remove this Contact");
@@ -132,7 +133,7 @@ public class ProfileActivity extends AppCompatActivity {
                                         }
 
                                         @Override
-                                        public void onCancelled(DatabaseError databaseError) {
+                                        public void onCancelled(@NonNull DatabaseError databaseError) {
 
                                         }
                                     });
@@ -140,7 +141,7 @@ public class ProfileActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onCancelled(DatabaseError databaseError) {
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
 
                     }
                 });

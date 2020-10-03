@@ -9,15 +9,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -32,7 +32,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login_alt);
 
         Button loginButton = findViewById(R.id.login_button);
-        Button phoneLoginButton = findViewById(R.id.phone_login_button);
+        TextView phoneLoginButton = findViewById(R.id.phone_login_button);
         UserEMail = findViewById(R.id.login_email);
         UserPassword = findViewById(R.id.login_password);
         TextView needNewAccountLink = findViewById(R.id.need_new_account_link);
@@ -93,16 +93,14 @@ public class LoginActivity extends AppCompatActivity {
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-
                             if (task.isSuccessful()) {
                                 SendUserToMainActivity();
                                 Toast.makeText(LoginActivity.this, "Logged in Successful...", Toast.LENGTH_SHORT).show();
-                                loadingBar.dismiss();
                             } else {
-                                String message = task.getException().toString();
+                                String message = Objects.requireNonNull(task.getException()).toString();
                                 Toast.makeText(LoginActivity.this, "Error : " + message, Toast.LENGTH_SHORT).show();
-                                loadingBar.dismiss();
                             }
+                            loadingBar.dismiss();
 
                         }
                     });

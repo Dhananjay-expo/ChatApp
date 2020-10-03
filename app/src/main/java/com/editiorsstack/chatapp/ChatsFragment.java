@@ -21,6 +21,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.util.Objects;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
@@ -31,7 +33,7 @@ public class ChatsFragment extends Fragment {
 
     private RecyclerView chatsList;
     private DatabaseReference ChatsRef, UsersRef;
-    private String retImage = "default_image";
+
     public ChatsFragment() {
         // Required empty public constructor
     }
@@ -40,7 +42,7 @@ public class ChatsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View privateChatsView = inflater.inflate(R.layout.fragment_chats, container, false);
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        String currentUserID = mAuth.getCurrentUser().getUid();
+        String currentUserID = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
         ChatsRef = FirebaseDatabase.getInstance().getReference().child("Contacts").child(currentUserID);
         UsersRef = FirebaseDatabase.getInstance().getReference().child("Users");
         chatsList = privateChatsView.findViewById(R.id.chats_list);
@@ -64,17 +66,18 @@ public class ChatsFragment extends Fragment {
                         final String usersIDs = getRef(position).getKey();
                         final String[] retImage = {"default_image"};
 
+                        assert usersIDs != null;
                         UsersRef.child(usersIDs).addValueEventListener(new ValueEventListener() {
                             @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                 if (dataSnapshot.exists()) {
                                     if (dataSnapshot.hasChild("image")) {
-                                        retImage[0] = dataSnapshot.child("image").getValue().toString();
+                                        retImage[0] = Objects.requireNonNull(dataSnapshot.child("image").getValue()).toString();
                                         Picasso.get().load(retImage[0]).into(holder.profileImage);
                                     }
 
-                                    final String retName = dataSnapshot.child("name").getValue().toString();
-                                    final String retStatus = dataSnapshot.child("status").getValue().toString();
+                                    final String retName = Objects.requireNonNull(dataSnapshot.child("name").getValue()).toString();
+                                    final String retStatus = Objects.requireNonNull(dataSnapshot.child("status").getValue()).toString();
 
                                     holder.userName.setText(retName);
                                     holder.userStatus.setText("Last Seen: " + "\n" + "Date " + "Time");
@@ -94,7 +97,7 @@ public class ChatsFragment extends Fragment {
                             }
 
                             @Override
-                            public void onCancelled(DatabaseError databaseError) {
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
 
                             }
                         });

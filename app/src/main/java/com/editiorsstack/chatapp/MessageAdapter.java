@@ -1,7 +1,6 @@
 package com.editiorsstack.chatapp;
 
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,13 +16,14 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageViewHolder> {
     private List<Messages> userMessagesList;
     private FirebaseAuth mAuth;
-    String TAG="CHECK";
+
     public MessageAdapter (List<Messages> userMessagesList){
         this.userMessagesList = userMessagesList;
     }
@@ -52,7 +52,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     @Override
     public void onBindViewHolder(@NonNull final MessageViewHolder messageViewHolder, int i) {
 
-        String messageSenderID = mAuth.getCurrentUser().getUid();
+        String messageSenderID = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
         Messages messages = userMessagesList.get(i);
 
         String fromUserID = messages.getFrom();
@@ -62,16 +62,16 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
 
         usersRef.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.hasChild("image")) {
-                    String receiverImage = dataSnapshot.child("image").getValue().toString();
+                    String receiverImage = Objects.requireNonNull(dataSnapshot.child("image").getValue()).toString();
                     Picasso.get().load(receiverImage).placeholder(R.drawable.profile_image).into(messageViewHolder.receiverProfileImage);
                 }
 
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });
@@ -108,8 +108,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
             tmp[j]=(byte)n;
         }
         byte [] tmp2 = obj.decrypt(tmp,key2);
-        String message2 =new String(tmp2);
-        return message2;
+        return new String(tmp2);
     }
 
     @Override

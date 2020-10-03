@@ -22,6 +22,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.util.Objects;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
@@ -30,12 +32,9 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 public class ContactsFragment extends Fragment {
 
-    private View ContactsView;
     private RecyclerView myContactList;
 
     private DatabaseReference ContactsRef, UsersRef;
-    private FirebaseAuth mAuth;
-    private String currentUserID;
 
 
     public ContactsFragment() {
@@ -47,26 +46,26 @@ public class ContactsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        ContactsView = inflater.inflate(R.layout.fragment_contacts, container, false);
+        View contactsView = inflater.inflate(R.layout.fragment_contacts, container, false);
 
-        myContactList = ContactsView.findViewById(R.id.contacts_list);
+        myContactList = contactsView.findViewById(R.id.contacts_list);
         myContactList.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        mAuth = FirebaseAuth.getInstance();
-        currentUserID = mAuth.getCurrentUser().getUid();
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        String currentUserID = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
 
         ContactsRef = FirebaseDatabase.getInstance().getReference().child("Contacts").child(currentUserID);
         UsersRef = FirebaseDatabase.getInstance().getReference().child("Users");
 
 
-        return ContactsView;
+        return contactsView;
     }
 
     @Override
     public void onStart() {
         super.onStart();
 
-        FirebaseRecyclerOptions options =
+        FirebaseRecyclerOptions<Contacts> options =
                 new FirebaseRecyclerOptions.Builder<Contacts>()
                 .setQuery(ContactsRef, Contacts.class)
                 .build();
@@ -77,20 +76,21 @@ public class ContactsFragment extends Fragment {
             protected void onBindViewHolder(@NonNull final ContactsViewHolder holder, int position, @NonNull Contacts model) {
                 String usersIDs = getRef(position).getKey();
 
+                assert usersIDs != null;
                 UsersRef.child(usersIDs).addValueEventListener(new ValueEventListener() {
                     @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         if (dataSnapshot.hasChild("image")) {
-                            String userImage = dataSnapshot.child("image").getValue().toString();
-                            String profileName = dataSnapshot.child("name").getValue().toString();
-                            String profileStatus = dataSnapshot.child("status").getValue().toString();
+                            String userImage = Objects.requireNonNull(dataSnapshot.child("image").getValue()).toString();
+                            String profileName = Objects.requireNonNull(dataSnapshot.child("name").getValue()).toString();
+                            String profileStatus = Objects.requireNonNull(dataSnapshot.child("status").getValue()).toString();
 
                             holder.userName.setText(profileName);
                             holder.userStatus.setText(profileStatus);
                             Picasso.get().load(userImage).placeholder(R.drawable.profile_image).into(holder.profileImage);
                         } else {
-                            String profileName = dataSnapshot.child("name").getValue().toString();
-                            String profileStatus = dataSnapshot.child("status").getValue().toString();
+                            String profileName = Objects.requireNonNull(dataSnapshot.child("name").getValue()).toString();
+                            String profileStatus = Objects.requireNonNull(dataSnapshot.child("status").getValue()).toString();
 
                             holder.userName.setText(profileName);
                             holder.userStatus.setText(profileStatus);
@@ -98,7 +98,7 @@ public class ContactsFragment extends Fragment {
                     }
 
                     @Override
-                    public void onCancelled(DatabaseError databaseError) {
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
 
                     }
                 });
@@ -109,8 +109,7 @@ public class ContactsFragment extends Fragment {
             @Override
             public ContactsViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
                 View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.users_display_layout, viewGroup, false);
-                ContactsViewHolder viewholder = new ContactsViewHolder(view);
-                return viewholder;
+                return new ContactsViewHolder(view);
             }
         };
 

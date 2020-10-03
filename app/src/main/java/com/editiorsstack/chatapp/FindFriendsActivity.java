@@ -21,11 +21,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
+import java.util.Objects;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class FindFriendsActivity extends AppCompatActivity {
 
-    private Toolbar mToolbar;
     private RecyclerView FindFriendsRecyclerList;
     private DatabaseReference UsersRef;
 
@@ -39,9 +40,9 @@ public class FindFriendsActivity extends AppCompatActivity {
         FindFriendsRecyclerList = findViewById(R.id.find_friends_recycler_list);
         FindFriendsRecyclerList.setLayoutManager(new LinearLayoutManager(this));
 
-        mToolbar = findViewById(R.id.find_friends_toolbar);
+        Toolbar mToolbar = findViewById(R.id.find_friends_toolbar);
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setTitle("Find Friends");
     }
@@ -80,8 +81,7 @@ public class FindFriendsActivity extends AppCompatActivity {
                     @Override
                     public FindFriendViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
                         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.users_display_layout, viewGroup, false);
-                        FindFriendViewHolder viewHolder = new FindFriendViewHolder(view);
-                        return viewHolder;
+                        return new FindFriendViewHolder(view);
                     }
                 };
         FindFriendsRecyclerList.setAdapter(adapter);

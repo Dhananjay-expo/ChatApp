@@ -10,12 +10,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -27,7 +25,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
-
+import java.util.Objects;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
@@ -36,12 +34,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 public class RequestFragment extends Fragment {
 
-    private View RequestFragmentView;
     private RecyclerView myRequestList;
 
     private DatabaseReference ChatReferenceRef, UsersRef, ContactsRef;
 
-    private FirebaseAuth mAuth;
     private String currentUserID;
 
 
@@ -51,22 +47,21 @@ public class RequestFragment extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        RequestFragmentView = inflater.inflate(R.layout.fragment_request, container, false);
+        View requestFragmentView = inflater.inflate(R.layout.fragment_request, container, false);
 
-        mAuth = FirebaseAuth.getInstance();
-        currentUserID = mAuth.getCurrentUser().getUid();
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        currentUserID = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
 
         ChatReferenceRef = FirebaseDatabase.getInstance().getReference().child("Chat Requests");
         UsersRef = FirebaseDatabase.getInstance().getReference().child("Users");
         ContactsRef = FirebaseDatabase.getInstance().getReference().child("Contacts");
 
-        myRequestList = RequestFragmentView.findViewById(R.id.chat_requests_list);
+        myRequestList = requestFragmentView.findViewById(R.id.chat_requests_list);
         myRequestList.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        return RequestFragmentView;
+        return requestFragmentView;
     }
 
     @Override
@@ -91,23 +86,24 @@ public class RequestFragment extends Fragment {
                         final DatabaseReference getTypeRef = getRef(position).child("request_type").getRef();
                         getTypeRef.addValueEventListener(new ValueEventListener() {
                             @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                 if (dataSnapshot.exists()) {
-                                    String type = dataSnapshot.getValue().toString();
+                                    String type = Objects.requireNonNull(dataSnapshot.getValue()).toString();
 
                                     if (type.equals("received")) {
+                                        assert list_user_id != null;
                                         UsersRef.child(list_user_id).addValueEventListener(new ValueEventListener() {
                                             @Override
-                                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                                 if (dataSnapshot.hasChild("image")) {
 
-                                                    final String requestProfileImage = dataSnapshot.child("image").getValue().toString();
+                                                    final String requestProfileImage = Objects.requireNonNull(dataSnapshot.child("image").getValue()).toString();
                                                     Picasso.get().load(requestProfileImage).into(holder.profileImage);
 
                                                 }
 
-                                                final String requestUserName = dataSnapshot.child("name").getValue().toString();
-                                                final String requestUserStatus = dataSnapshot.child("status").getValue().toString();
+                                                final String requestUserName = Objects.requireNonNull(dataSnapshot.child("name").getValue()).toString();
+                                                final String requestUserStatus = Objects.requireNonNull(dataSnapshot.child("status").getValue()).toString();
 
                                                 holder.userName.setText(requestUserName);
                                                 holder.userStatus.setText("wants to connect with you.");
@@ -115,7 +111,7 @@ public class RequestFragment extends Fragment {
                                                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                                                     @Override
                                                     public void onClick(View v) {
-                                                        CharSequence options[] = new CharSequence[] {
+                                                        CharSequence[] options = new CharSequence[] {
                                                                 "Accept",
                                                                 "Cancel"
                                                         };
@@ -196,7 +192,7 @@ public class RequestFragment extends Fragment {
                                             }
 
                                             @Override
-                                            public void onCancelled(DatabaseError databaseError) {
+                                            public void onCancelled(@NonNull DatabaseError databaseError) {
 
                                             }
                                         });
@@ -206,7 +202,7 @@ public class RequestFragment extends Fragment {
                             }
 
                             @Override
-                            public void onCancelled(DatabaseError databaseError) {
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
 
                             }
                         });
@@ -216,8 +212,7 @@ public class RequestFragment extends Fragment {
                     @Override
                     public RequestViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
                         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.users_display_layout, viewGroup, false);
-                        RequestViewHolder holder = new RequestViewHolder(view);
-                        return holder;
+                        return new RequestViewHolder(view);
                     }
                 };
 

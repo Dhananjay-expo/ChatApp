@@ -31,6 +31,7 @@ import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -41,22 +42,19 @@ public class SettingsActivity extends AppCompatActivity {
     private CircleImageView userProfileImage;
 
     private String currentUserID;
-    private FirebaseAuth mAuth;
     private DatabaseReference RootRef;
     private static final int GalleryPick = 1;
 
     private StorageReference UserProfileImagesRef;
     private ProgressDialog loadingBar;
 
-    private Toolbar SettingsToolBar;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        mAuth = FirebaseAuth.getInstance();
-        currentUserID = mAuth.getCurrentUser().getUid();
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        currentUserID = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
         RootRef = FirebaseDatabase.getInstance().getReference();
         UserProfileImagesRef = FirebaseStorage.getInstance().getReference().child("Profile Images");
 
@@ -95,9 +93,9 @@ public class SettingsActivity extends AppCompatActivity {
         userStatus = findViewById(R.id.set_profile_status);
         userProfileImage = findViewById(R.id.set_profile_image);
         loadingBar = new ProgressDialog(this);
-        SettingsToolBar = findViewById(R.id.settings_toolbar);
-        setSupportActionBar(SettingsToolBar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Toolbar settingsToolBar = findViewById(R.id.settings_toolbar);
+        setSupportActionBar(settingsToolBar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setTitle("Account Settings");
     }
@@ -125,6 +123,7 @@ public class SettingsActivity extends AppCompatActivity {
                 loadingBar.setCanceledOnTouchOutside(false);
                 loadingBar.show();
 
+                assert result != null;
                 Uri resultUri = result.getUri();
 
                 StorageReference filePath = UserProfileImagesRef.child(currentUserID + ".jpg");
@@ -135,7 +134,7 @@ public class SettingsActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             Toast.makeText(SettingsActivity.this, "Profile Image uploaded successfully.", Toast.LENGTH_SHORT).show();
 
-                            final String downloadUrl = task.getResult().getMetadata().getReference().getDownloadUrl().toString();
+                            final String downloadUrl = Objects.requireNonNull(Objects.requireNonNull(Objects.requireNonNull(task.getResult()).getMetadata()).getReference()).getDownloadUrl().toString();
                             RootRef.child("Users").child(currentUserID).child("image")
                                     .setValue(downloadUrl)
                                     .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -145,14 +144,14 @@ public class SettingsActivity extends AppCompatActivity {
                                                 Toast.makeText(SettingsActivity.this, "Image saved in Database, Successfully.", Toast.LENGTH_SHORT).show();
                                                 loadingBar.dismiss();
                                             } else {
-                                                String message = task.getException().toString();
+                                                String message = Objects.requireNonNull(task.getException()).toString();
                                                 Toast.makeText(SettingsActivity.this, "Error: " + message, Toast.LENGTH_SHORT).show();
                                                 loadingBar.dismiss();
                                             }
                                         }
                                     });
                         } else {
-                            String message = task.getException().toString();
+                            String message = Objects.requireNonNull(task.getException()).toString();
                             Toast.makeText(SettingsActivity.this, "Error: " + message, Toast.LENGTH_SHORT).show();
                             loadingBar.dismiss();
                         }
@@ -187,7 +186,7 @@ public class SettingsActivity extends AppCompatActivity {
                                 SendUserToMainActivity();
                                 Toast.makeText(SettingsActivity.this, "Profile Updated Successfully..", Toast.LENGTH_SHORT).show();
                             } else {
-                                String message = task.getException().toString();
+                                String message = Objects.requireNonNull(task.getException()).toString();
                                 Toast.makeText(SettingsActivity.this, "Error: " +message, Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -201,9 +200,9 @@ public class SettingsActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         if ((dataSnapshot.exists()) && (dataSnapshot.hasChild("name")  && (dataSnapshot.hasChild("image")))) {
-                            String retrieveUserName = dataSnapshot.child("name").getValue().toString();
-                            String retrieveStatus = dataSnapshot.child("status").getValue().toString();
-                            String retrieveProfileImage = dataSnapshot.child("image").getValue().toString();
+                            String retrieveUserName = Objects.requireNonNull(dataSnapshot.child("name").getValue()).toString();
+                            String retrieveStatus = Objects.requireNonNull(dataSnapshot.child("status").getValue()).toString();
+                            String retrieveProfileImage = Objects.requireNonNull(dataSnapshot.child("image").getValue()).toString();
 
                             userName.setText(retrieveUserName);
                             userStatus.setText(retrieveStatus);
@@ -211,8 +210,8 @@ public class SettingsActivity extends AppCompatActivity {
 
 
                         } else if ((dataSnapshot.exists()) && (dataSnapshot.hasChild("name"))) {
-                            String retrieveUserName = dataSnapshot.child("name").getValue().toString();
-                            String retrieveStatus = dataSnapshot.child("status").getValue().toString();
+                            String retrieveUserName = Objects.requireNonNull(dataSnapshot.child("name").getValue()).toString();
+                            String retrieveStatus = Objects.requireNonNull(dataSnapshot.child("status").getValue()).toString();
 
                             userName.setText(retrieveUserName);
                             userStatus.setText(retrieveStatus);

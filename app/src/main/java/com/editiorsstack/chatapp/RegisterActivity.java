@@ -23,13 +23,13 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Objects;
+
 public class RegisterActivity extends AppCompatActivity {
 
     private static final String TAG = "RegisterActivity";
 
-    private Button CreateAccountButton;
     private EditText UserEMail, UserPassword;
-    private TextView AlreadyHaveAccountLink;
 
     private FirebaseAuth mAuth;
     private DatabaseReference RootRef;
@@ -41,10 +41,10 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        CreateAccountButton = findViewById(R.id.register_button);
+        Button createAccountButton = findViewById(R.id.register_button);
         UserEMail = findViewById(R.id.register_email);
         UserPassword = findViewById(R.id.register_password);
-        AlreadyHaveAccountLink = findViewById(R.id.already_have_account_link);
+        TextView alreadyHaveAccountLink = findViewById(R.id.already_have_account_link);
 
         loadingBar = new ProgressDialog(this);
 
@@ -52,7 +52,7 @@ public class RegisterActivity extends AppCompatActivity {
         RootRef = FirebaseDatabase.getInstance().getReference();
 
 
-        AlreadyHaveAccountLink.setOnClickListener(new View.OnClickListener() {
+        alreadyHaveAccountLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 SendUserToLoginActivity();
@@ -60,7 +60,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
-        CreateAccountButton.setOnClickListener(new View.OnClickListener() {
+        createAccountButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 CreateNewAccount();
@@ -78,7 +78,6 @@ public class RegisterActivity extends AppCompatActivity {
         }
         if (TextUtils.isEmpty(password)) {
             UserPassword.setError("Please Enter Password");
-            return;
         }
         else {
             loadingBar.setTitle("Creating New Account");
@@ -93,13 +92,13 @@ public class RegisterActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful())
                             {
-                                String currentUserID = mAuth.getCurrentUser().getUid();
+                                String currentUserID = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
                                 RootRef.child("Users").child(currentUserID).setValue("");
                                 Toast.makeText(RegisterActivity.this, "Account Created Successfully", Toast.LENGTH_SHORT).show();
                                 loadingBar.dismiss();
                                 SendUserToMainActivity();
                             } else {
-                                String message = task.getException().toString();
+                                String message = Objects.requireNonNull(task.getException()).toString();
                                 Toast.makeText(RegisterActivity.this, "Error : " + message, Toast.LENGTH_SHORT).show();
 
                                 Log.d(TAG, "onComplete: Error : " + message);

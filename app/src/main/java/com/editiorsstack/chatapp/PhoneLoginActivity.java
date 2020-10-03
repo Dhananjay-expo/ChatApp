@@ -9,10 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
@@ -21,6 +19,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 public class PhoneLoginActivity extends AppCompatActivity
@@ -34,8 +33,6 @@ public class PhoneLoginActivity extends AppCompatActivity
     private ProgressDialog loadingBar;
 
     private String mVerificationId;
-    private PhoneAuthProvider.ForceResendingToken mResendToken;
-
 
 
     @Override
@@ -110,15 +107,15 @@ public class PhoneLoginActivity extends AppCompatActivity
 
         callbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
             @Override
-            public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential)
+            public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential)
             {
                 signInWithPhoneAuthCredential(phoneAuthCredential);
             }
 
             @Override
-            public void onVerificationFailed(FirebaseException e)
+            public void onVerificationFailed(@NonNull FirebaseException e)
             {
-                String message = e.getMessage().toString();
+                String message = e.getMessage();
                 Toast.makeText(PhoneLoginActivity.this, "Error: " + message, Toast.LENGTH_SHORT).show();
                 Log.d("PhoneLogin", "onVerificationFailed: " + message);
 
@@ -132,12 +129,10 @@ public class PhoneLoginActivity extends AppCompatActivity
                 VerifyButton.setVisibility(View.INVISIBLE);
             }
 
-            public void onCodeSent(String verificationId,
-                                   PhoneAuthProvider.ForceResendingToken token)
+            public void onCodeSent(@NonNull String verificationId, @NonNull PhoneAuthProvider.ForceResendingToken token)
             {
                 // Save verification ID and resending token so we can use them later
                 mVerificationId = verificationId;
-                mResendToken = token;
 
 
                 Toast.makeText(PhoneLoginActivity.this, "Code has been sent, please check and verify...", Toast.LENGTH_SHORT).show();
@@ -168,7 +163,7 @@ public class PhoneLoginActivity extends AppCompatActivity
                         }
                         else
                         {
-                            String message = task.getException().toString();
+                            String message = Objects.requireNonNull(task.getException()).toString();
                             Toast.makeText(PhoneLoginActivity.this, "Error: " + message, Toast.LENGTH_SHORT).show();
                             loadingBar.dismiss();
                         }
