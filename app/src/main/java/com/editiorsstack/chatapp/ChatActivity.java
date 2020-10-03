@@ -117,9 +117,7 @@ public class ChatActivity extends AppCompatActivity {
                     @Override
                     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                         Messages messages = dataSnapshot.getValue(Messages.class);
-
                         messagesList.add(messages);
-
                         mMessageAdapter.notifyDataSetChanged();
                     }
 
@@ -151,6 +149,17 @@ public class ChatActivity extends AppCompatActivity {
         if (TextUtils.isEmpty(messageText)) {
             Toast.makeText(this, "Please type a message.", Toast.LENGTH_SHORT).show();
         } else {
+            byte [] key =AES.getKey();
+            byte [] arr = messageText.getBytes();
+            Aes_128_bit_algorithm obj =new Aes_128_bit_algorithm();
+            byte []tmp=obj.encrypt(arr,key);
+            String message ="";
+            for(int i=0;i<tmp.length;i++){
+                System.out.print(tmp[i]+" ");
+                int n = tmp[i];
+                message=message+Integer.toString(n)+"#";
+            }
+
             String messageSenderRef = "Messages/" + messageSenderID + "/" + messageReceiverID;
             String messageReceiverRef = "Messages/" + messageReceiverID + "/" + messageSenderID;
 
@@ -160,7 +169,7 @@ public class ChatActivity extends AppCompatActivity {
             String messagePushID = userMessageKeyRef.getKey();
 
             Map messageTextBody = new HashMap();
-            messageTextBody.put("message", messageText);
+            messageTextBody.put("message",message);
             messageTextBody.put("type", "text");
             messageTextBody.put("from", messageSenderID);
 

@@ -1,15 +1,13 @@
 package com.editiorsstack.chatapp;
 
 import android.graphics.Color;
-
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -25,20 +23,16 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageViewHolder> {
     private List<Messages> userMessagesList;
     private FirebaseAuth mAuth;
-    private DatabaseReference usersRef;
-
-    public MessageAdapter (List<Messages> userMessagesList) {
+    String TAG="CHECK";
+    public MessageAdapter (List<Messages> userMessagesList){
         this.userMessagesList = userMessagesList;
     }
-
-    public class MessageViewHolder extends RecyclerView.ViewHolder {
+    public static class MessageViewHolder extends RecyclerView.ViewHolder {
 
         public TextView senderMessageText, receiverMessageText;
         public CircleImageView receiverProfileImage;
-
         public MessageViewHolder(@NonNull View itemView) {
             super(itemView);
-
             senderMessageText = itemView.findViewById(R.id.sender_message_text);
             receiverMessageText = itemView.findViewById(R.id.receiver_message_text);
             receiverProfileImage = itemView.findViewById(R.id.message_profile_image);
@@ -64,7 +58,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         String fromUserID = messages.getFrom();
         String fromMessageType = messages.getType();
 
-        usersRef = FirebaseDatabase.getInstance().getReference().child("Users").child(fromUserID);
+        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("Users").child(fromUserID);
 
         usersRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -89,24 +83,38 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
             if (fromUserID.equals(messageSenderID)) {
                 messageViewHolder.senderMessageText.setBackgroundResource(R.drawable.sender_messages_layout);
                 messageViewHolder.senderMessageText.setTextColor(Color.BLACK);
-                messageViewHolder.senderMessageText.setText(messages.getMessage());
+                String mess = decrypt(messages.getMessage());
+                messageViewHolder.senderMessageText.setText(mess);
             } else {
                 messageViewHolder.senderMessageText.setVisibility(View.INVISIBLE);
-
                 messageViewHolder.receiverMessageText.setVisibility(View.VISIBLE);
                 messageViewHolder.receiverProfileImage.setVisibility(View.VISIBLE);
-
                 messageViewHolder.receiverMessageText.setBackgroundResource(R.drawable.receiver_messages_layout);
                 messageViewHolder.receiverMessageText.setTextColor(Color.BLACK);
-                messageViewHolder.receiverMessageText.setText(messages.getMessage());
+                String mess = decrypt(messages.getMessage());
+                messageViewHolder.receiverMessageText.setText(mess);
             }
         }
+    }
+
+    private String decrypt(String message) {
+
+        byte[] key2 =AES.getKey();
+        Aes_128_bit_algorithm obj = new Aes_128_bit_algorithm();
+        String[] tokens = message.split("#");
+        byte[] tmp = new byte[tokens.length];
+        for(int j =0;j<tokens.length;j++){
+            int n = Integer.parseInt(tokens[j]);
+            tmp[j]=(byte)n;
+        }
+        byte [] tmp2 = obj.decrypt(tmp,key2);
+        String message2 =new String(tmp2);
+        return message2;
     }
 
     @Override
     public int getItemCount() {
         return userMessagesList.size();
     }
-
 
 }

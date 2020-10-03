@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseUser currentUser;
     private FirebaseAuth mAuth;
     private DatabaseReference RootRef;
-
+    static int count =0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        count++;
         if (currentUser == null) {
             SendUserToLoginActivity();
         } else {
@@ -68,8 +69,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if ((dataSnapshot.child("name").exists())) {
-                    Toast.makeText(MainActivity.this, "Welcome", Toast.LENGTH_SHORT).show();
-                } else {
+                    if(count==1)  Toast.makeText(MainActivity.this, "Welcome", Toast.LENGTH_SHORT).show();
+                } else{
                     SendUserToSettingsActivity();
                 }
             }
@@ -97,74 +98,15 @@ public class MainActivity extends AppCompatActivity {
             mAuth.signOut();
             SendUserToLoginActivity();
         }
-
-        if (item.getItemId() == R.id.main_create_group_option) {
-            RequestNewGroup();
-
-        }
-
-        if (item.getItemId() == R.id.main_chat_option) {
-            SendUserToChatActivity();
-
-        }
-
         if (item.getItemId() == R.id.main_settings_option) {
             SendUserToSettingsActivity();
 
         }
-
         if (item.getItemId() == R.id.main_find_friends_option) {
             SendUserToFindFriendsActivity();
 
         }
-
         return true;
-    }
-
-    private void RequestNewGroup() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this, R.style.AlertDialog);
-        builder.setTitle("Enter Group Name :");
-
-        final EditText groupNameField = new EditText(MainActivity.this);
-        groupNameField.setHint("Project CSE");
-        builder.setView(groupNameField);
-
-        builder.setPositiveButton("Create", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String groupName = groupNameField.getText().toString();
-                if (TextUtils.isEmpty(groupName)) {
-                    Toast.makeText(MainActivity.this, "Please write Group Name..", Toast.LENGTH_SHORT).show();
-                } else {
-                    CreateNewGroup(groupName);
-
-                }
-
-            }
-        });
-
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int which) {
-                dialogInterface.cancel();
-
-            }
-        });
-
-        builder.show();
-    }
-
-    private void CreateNewGroup(final String groupName) {
-        RootRef.child("Groups").child(groupName).setValue("")
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            Toast.makeText(MainActivity.this, groupName + " is created successfully.", Toast.LENGTH_SHORT).show();
-                        }
-
-                    }
-                });
     }
 
     private void SendUserToLoginActivity() {
@@ -183,8 +125,4 @@ public class MainActivity extends AppCompatActivity {
         startActivity(findFriendsIntent);
     }
 
-    private void SendUserToChatActivity() {
-        Intent findFriendsIntent = new Intent(MainActivity.this, ChatMainActivity.class);
-        startActivity(findFriendsIntent);
-    }
 }

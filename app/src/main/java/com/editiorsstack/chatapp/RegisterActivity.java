@@ -41,10 +41,16 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
+        CreateAccountButton = findViewById(R.id.register_button);
+        UserEMail = findViewById(R.id.register_email);
+        UserPassword = findViewById(R.id.register_password);
+        AlreadyHaveAccountLink = findViewById(R.id.already_have_account_link);
+
+        loadingBar = new ProgressDialog(this);
+
         mAuth = FirebaseAuth.getInstance();
         RootRef = FirebaseDatabase.getInstance().getReference();
 
-        initializeFields();
 
         AlreadyHaveAccountLink.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,10 +73,12 @@ public class RegisterActivity extends AppCompatActivity {
         String password = UserPassword.getText().toString();
 
         if (TextUtils.isEmpty(email)) {
-            Toast.makeText(this, "Please enter email...", Toast.LENGTH_SHORT).show();
+            UserEMail.setError("Please Enter Email");
+            return;
         }
         if (TextUtils.isEmpty(password)) {
-            Toast.makeText(this, "Please enter password...", Toast.LENGTH_SHORT).show();
+            UserPassword.setError("Please Enter Password");
+            return;
         }
         else {
             loadingBar.setTitle("Creating New Account");
@@ -87,10 +95,9 @@ public class RegisterActivity extends AppCompatActivity {
                             {
                                 String currentUserID = mAuth.getCurrentUser().getUid();
                                 RootRef.child("Users").child(currentUserID).setValue("");
-
-                                SendUserToMainActivity();
                                 Toast.makeText(RegisterActivity.this, "Account Created Successfully", Toast.LENGTH_SHORT).show();
                                 loadingBar.dismiss();
+                                SendUserToMainActivity();
                             } else {
                                 String message = task.getException().toString();
                                 Toast.makeText(RegisterActivity.this, "Error : " + message, Toast.LENGTH_SHORT).show();
@@ -101,17 +108,6 @@ public class RegisterActivity extends AppCompatActivity {
                         }
                     });
         }
-    }
-
-
-
-    private void initializeFields() {
-        CreateAccountButton = findViewById(R.id.register_button);
-        UserEMail = findViewById(R.id.register_email);
-        UserPassword = findViewById(R.id.register_password);
-        AlreadyHaveAccountLink = findViewById(R.id.already_have_account_link);
-
-        loadingBar = new ProgressDialog(this);
     }
 
     private void SendUserToLoginActivity() {

@@ -28,17 +28,17 @@
         <EditText
 
             android:id="@+id/input_message"
-            android:layout_width="340dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:hint="@string/type_message_here"
             android:importantForAutofill="no"
-
+            android:layout_weight="1"
             android:inputType="textAutoComplete" />
 
         <ImageButton
             android:id="@+id/send_message_btn"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:contentDescription="@string/todo"
             android:src="@drawable/send_message" />
 
