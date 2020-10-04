@@ -1,5 +1,5 @@
 # ChatApp
-<img src="https://user-images.githubusercontent.com/35190293/95014629-c3b7d380-0665-11eb-9d20-3e34016b9330.jpg" width=100>
+<img src="https://user-images.githubusercontent.com/35190293/95014629-c3b7d380-0665-11eb-9d20-3e34016b9330.jpg" width=200 height=400>
 ![Screenshot_20201003_211022](https://user-images.githubusercontent.com/35190293/95014629-c3b7d380-0665-11eb-9d20-3e34016b9330.jpg)
 ![Screenshot_20201003_211030](https://user-images.githubusercontent.com/35190293/95014631-c5819700-0665-11eb-9db6-dadd8b342f4f.jpg)
 ![Screenshot_20201003_211056](https://user-images.githubusercontent.com/35190293/95014633-c61a2d80-0665-11eb-8881-0cd9acf804c6.jpg)
