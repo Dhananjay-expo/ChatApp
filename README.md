@@ -5,7 +5,7 @@ ChatApp For Android Phone:
 	   gmail and number and after succsefull login and it having three fragment first is your chat, second is 
 	   for registered people in this Application and in this fragment you sent connection request to anybody 
 	   that is not connected with you and third fragment is total connection with other person. I use firebase 
-	   for authentication, Store all messages, peron id, name, number.
+	   for authentication, Store all messages, person id, name, number.
 	2: Language : Java
 	3: IDE : Android Studio
 <p align="center" width="100%">
