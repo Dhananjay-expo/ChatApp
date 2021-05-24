@@ -1,9 +1,9 @@
 # ChatApp
 ChatApp For Android Phone:
 	
-	1: This is one to one chat Android Application. In this Android You have to first register in app throug 
-	   gmail and number and after succsefull login and it having three fragment first is your chat, second is 
-	   for registered people in this Application and in this fragment you sent connection request to anybody 
+	1: This is one to one chatApp Android Application. In this Android You have to first register in app through 
+	   gmail and mobile number and after succsefull login and it having three fragment first is your chat, second 
+	   is for registered people in this Application and in this fragment you sent connection request to anybody 
 	   that is not connected with you and third fragment is total connection with other person. I use firebase 
 	   for authentication, Store all messages, person id, name, number.
 	2: Language : Java
